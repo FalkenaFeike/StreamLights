@@ -1,0 +1,303 @@
+#include <FastLED.h>
+ 
+// LED Settings
+#define NUM_LEDS 50
+#define LED_TYPE WS2812B
+#define COLOR_ORDER RGB
+#define BRIGHTNESS 200
+ 
+// Pins
+#define LED_PIN 13
+#define BTNPIN 12
+#define BTNPIN2 11
+#define BTNPIN3 10
+#define BTNPIN4 9
+ 
+CRGB leds[NUM_LEDS];
+float ihue = 0;
+float istep = 0.01;
+int numstops = round(255/NUM_LEDS);
+ 
+String command = "";
+ 
+void setup() {
+  delay(20);
+  // Init serial
+  Serial.begin(9600);
+ 
+  // Init LEDs
+  LEDS.addLeds < LED_TYPE, LED_PIN, COLOR_ORDER > (leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
+}
+ 
+void loop() {
+  FastLED.show();
+  fill_solid(leds, NUM_LEDS, CRGB(255, 60, 255));
+  FastLED.show();
+ 
+  //==================
+  // Serial Listener
+  //==================
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    if (inChar == '\n' || inChar == '\r') {
+      command = command.substring(0);
+     
+      // Commands go here >
+      if(command.equals("win"))                 { animatie1(); }
+      else if(command.equals("lose"))           { animatie2(); }
+      else if(command.equals("twitchfollow"))   { animatie4(); }
+      else if(command.equals("donatie"))        { animatie3(); }
+      else if(command.equals("youtubefollow"))  { animatie4(); }
+      else if(command.equals("party"))          { animatie2(); }
+      else if(command.equals("DezeIsNogLeeg"))  { animatie3(); }
+      else if(command.equals("DezeIsOokLeeg"))  { animatie4(); }
+     
+      // Clear command after we are done
+      command = "";
+    } else {
+      command += inChar;
+    }
+  }
+ 
+  //==================
+  // Buttons
+  //==================
+ 
+  // Animatie 1
+  if (digitalRead(BTNPIN) == HIGH) {
+    animatie1();
+  }
+ 
+  // Animatie 2
+  if (digitalRead(BTNPIN2) == HIGH) {
+    animatie2();
+  }
+ 
+  // Animatie 3
+  if (digitalRead(BTNPIN3) == HIGH) {
+    animatie3();
+  }
+ 
+  // Animatie 4
+  if (digitalRead(BTNPIN4) == HIGH) {
+    animatie4();
+  }
+}
+ 
+void animatie2() {
+  Serial.println("Animatie 2");
+ 
+   for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 255);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+    for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 255);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+    fill_solid(leds, NUM_LEDS, CRGB(0, 0, 255));
+    FastLED.show();
+    delay(500);
+      fill_solid(leds, NUM_LEDS, CRGB(255, 60, 255));
+        FastLED.show();
+        delay(500);
+    fill_solid(leds, NUM_LEDS, CRGB(0, 0, 255));
+      FastLED.show();
+      delay(500);
+      fill_solid(leds, NUM_LEDS, CRGB(255, 60, 255));
+        FastLED.show();
+        delay(500);
+ 
+     for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 255);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+     for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 255);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+}
+ 
+void animatie1() {
+  Serial.println("Animatie 1");
+ 
+   for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 255, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+    for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 255, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+    fill_solid(leds, NUM_LEDS, CRGB(0, 255, 0));
+    FastLED.show();
+    delay(500);
+      fill_solid(leds, NUM_LEDS, CRGB(255, 60, 255));
+        FastLED.show();
+        delay(500);
+    fill_solid(leds, NUM_LEDS, CRGB(0, 255, 0));
+      FastLED.show();
+      delay(500);
+      fill_solid(leds, NUM_LEDS, CRGB(255, 60, 255));
+        FastLED.show();
+        delay(500);
+ 
+     for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 255, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+     for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 255, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+}
+ 
+void animatie4() {
+  Serial.println("Animatie 4");
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+  FastLED.clear();
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(255, 255, 255);
+    FastLED.show();
+    delay(10);
+  }
+ 
+  FastLED.clear();
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(255, 0, 0);
+    FastLED.show();
+    delay(10);
+  }
+ 
+  FastLED.clear();
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(255, 255, 255);
+    FastLED.show();
+    delay(10);
+  }
+ 
+  FastLED.clear();
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+}
+ 
+void animatie3() {
+  Serial.println("Animatie 3");
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(148,248,24);
+    FastLED.show();
+    delay(10);
+  }
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(148,248,24);
+    FastLED.show();
+    delay(10);
+  }
+ 
+        fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+          FastLED.show();
+          delay(200);
+ 
+         fill_solid(leds, NUM_LEDS, CRGB(148,248,24));
+          FastLED.show();
+          delay(500);
+         
+        fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+          FastLED.show();
+          delay(200);
+ 
+        fill_solid(leds, NUM_LEDS, CRGB(148,248,24));
+          FastLED.show();
+          delay(500);
+         
+        fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+          FastLED.show();
+          delay(200);
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(148,248,24);
+    FastLED.show();
+    delay(10);
+  }
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i - 2].setRGB(0, 0, 0);
+    leds[i].setRGB(148,248,24);
+    FastLED.show();
+    delay(10);
+  }
+ 
+  FastLED.clear();
+ 
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].setRGB(0, 0, 0);
+    leds[i - 2].setRGB(255, 60, 255);
+    FastLED.show();
+    delay(20);
+  }
+ 
+}
+ 
+void animatie0() {
+  Serial.println("Animatie 4");
+  FastLED.clear();
+  fill_solid(leds, NUM_LEDS, CRGB(0,255,215));
+  FastLED.show();
+  delay(1000);
+   
+    FastLED.clear();
+}
